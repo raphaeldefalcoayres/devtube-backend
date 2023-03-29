@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -18,7 +18,7 @@ model Video {
   publishTime   DateTime
   videoId       String   @unique
   title         String
-  description   String
+  description   String? @db.Text
   thumbnail     String
   duration      Float
   viewCount     Int
@@ -28,8 +28,8 @@ model Video {
   positiveVotes Int
   negativeVotes Int
   relevance     Int
-  tags          String
-  topics        String
+  tags          String? @db.Text
+  topics        String? @db.Text
   segment       String
   category      String
   language      String
@@ -44,7 +44,7 @@ model Video {
 model Channel {
   id                     String   @id @default(uuid())
   title                  String
-  description            String
+  description            String? @db.Text
   customUrl              String?
   publishedAt            DateTime
   defaultThumbnailUrl    String

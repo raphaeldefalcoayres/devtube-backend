@@ -31,8 +31,8 @@ async function fetchAndSaveVideos(prisma: PrismaClient) {
         maxResults: 100,
         regionCode: 'BR',
         relevanceLanguage: 'pt',
-        publishedAfter: '2020-01-01T00:00:00Z',
-        publishedBefore: '2020-12-31T23:59:59Z',
+        publishedAfter: '2023-01-01T00:00:00Z',
+        publishedBefore: '2023-12-31T23:59:59Z',
       }
       // Busca os vídeos na API do YouTube
       const res = await youtube.search.list(params)
@@ -56,7 +56,7 @@ async function fetchAndSaveVideos(prisma: PrismaClient) {
           channelSnippet = channelResponse.data.items[0].snippet
         }
 
-        console.log('channelSnippet', channelSnippet)
+        // console.log('channelSnippet', channelSnippet)
 
         if (!isBrazilianChannel(channelSnippet?.title!)) {
           continue
@@ -90,7 +90,7 @@ async function fetchAndSaveVideos(prisma: PrismaClient) {
             },
           })
 
-          console.log('Channel saved successfully:', newChannel)
+          // console.log('Channel saved successfully:', newChannel)
         } else {
           newChannel = existingChannel
         }
@@ -160,7 +160,7 @@ async function fetchAndSaveVideos(prisma: PrismaClient) {
             keyword && keyword.replace('aprenda ', '').replace('sobre ', ''),
         }
 
-        console.log('videoDetails', videoDetails)
+        // console.log('videoDetails', videoDetails)
 
         const existingVideo = await prisma.video.findUnique({
           where: { videoId: videoDetails.videoId! },
@@ -168,7 +168,7 @@ async function fetchAndSaveVideos(prisma: PrismaClient) {
 
         if (!existingVideo) {
           const newVideo = await prisma.video.create({ data: videoDetails })
-          console.log('Video saved successfully:', newVideo)
+          // console.log('Video saved successfully:', newVideo)
         } else {
           const updatedVideo = await prisma.video.update({
             where: { id: existingVideo.id },
@@ -176,6 +176,7 @@ async function fetchAndSaveVideos(prisma: PrismaClient) {
           })
           // console.log('Video updated successfully:', updatedVideo)
         }
+        console.log('ok')
       }
     })
 
