@@ -31,8 +31,8 @@ async function fetchAndSaveVideos(prisma: PrismaClient) {
         maxResults: 100,
         regionCode: 'BR',
         relevanceLanguage: 'pt',
-        publishedAfter: '2021-01-01T00:00:00Z',
-        publishedBefore: '2021-12-31T23:59:59Z',
+        publishedAfter: '2020-01-01T00:00:00Z',
+        publishedBefore: '2020-12-31T23:59:59Z',
       }
       // Busca os vídeos na API do YouTube
       const res = await youtube.search.list(params)
