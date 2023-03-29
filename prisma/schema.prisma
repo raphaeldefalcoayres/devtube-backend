@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Video {
+  id            String   @id @default(uuid())
+  channelId     String   @default(uuid())
+  channelTitle  String
+  channelLogo   String
+  publishTime   DateTime
+  videoId       String   @unique
+  title         String
+  description   String
+  thumbnail     String
+  duration      Float
+  viewCount     Int
+  likeCount     Int
+  commentCount  Int?
+  favoriteCount Int?
+  positiveVotes Int
+  negativeVotes Int
+  relevance     Int
+  tags          String
+  topics        String
+  segment       String
+  category      String
+  language      String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  channel Channel @relation(fields: [channelId], references: [id]) // nova relação
+
+  @@map("videos")
+}
+
+model Channel {
+  id                     String   @id @default(uuid())
+  title                  String
+  description            String
+  customUrl              String?
+  publishedAt            DateTime
+  defaultThumbnailUrl    String
+  defaultThumbnailWidth  Int
+  defaultThumbnailHeight Int
+  mediumThumbnailUrl     String
+  mediumThumbnailWidth   Int
+  mediumThumbnailHeight  Int
+  highThumbnailUrl       String
+  highThumbnailWidth     Int
+  highThumbnailHeight    Int
+  videos                 Video[] // nova relação
+
+  @@map("channels")
+}
