@@ -14,13 +14,13 @@ async function fetchAndSaveVideos(prisma: PrismaClient) {
   try {
     const searchKeywords = [
       'javascript',
-      // 'typescript',
-      // 'html',
-      // 'css',
-      // 'react native',
-      // 'react.js',
-      // 'next.js',
-      // 'node.js',
+      'typescript',
+      'html',
+      'css',
+      'react native',
+      'react.js',
+      'next.js',
+      'node.js',
     ]
     const promises = searchKeywords.map(async (keyword) => {
       const params: youtube_v3.Params$Resource$Search$List = {
@@ -28,11 +28,11 @@ async function fetchAndSaveVideos(prisma: PrismaClient) {
         q: keyword,
         type: ['video'],
         videoDuration: 'medium',
-        maxResults: 2,
+        maxResults: 100,
         regionCode: 'BR',
         relevanceLanguage: 'pt',
-        publishedAfter: '2023-01-01T00:00:00Z',
-        publishedBefore: '2023-12-31T23:59:59Z',
+        publishedAfter: '2022-01-01T00:00:00Z',
+        publishedBefore: '2022-12-31T23:59:59Z',
       }
       // Busca os vídeos na API do YouTube
       const res = await youtube.search.list(params)
