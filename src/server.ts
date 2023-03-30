@@ -1,12 +1,18 @@
 import { PrismaClient, Prisma } from '@prisma/client'
-import { fastify, FastifyReply, FastifyRequest } from 'fastify'
-import allowCors from './allowCors'
+import { fastify, FastifyReply, FastifyRequest, FastifyInstance } from 'fastify'
 
-const app = fastify()
+const app: FastifyInstance = fastify()
+
+app.addHook('onRequest', (req, res, done) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept',
+  )
+  done()
+})
 
 const prisma = new PrismaClient()
-
-app.register(allowCors)
 
 interface VideosParams {
   title?: string
