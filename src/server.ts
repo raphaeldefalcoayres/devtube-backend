@@ -1,9 +1,12 @@
 import { PrismaClient, Prisma } from '@prisma/client'
 import { fastify, FastifyReply, FastifyRequest } from 'fastify'
+import allowCors from './allowCors'
 
 const app = fastify()
 
 const prisma = new PrismaClient()
+
+app.register(allowCors)
 
 interface VideosParams {
   title?: string
