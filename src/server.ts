@@ -130,10 +130,24 @@ app.get(
   async (req: FastifyRequest<{ Params: VideoParams }>, reply: FastifyReply) => {
     const videoId = req.params.id
     const video = await prisma.video.findUnique({
-      where: { id: videoId },
+      where: { videoId },
       include: { channel: true },
     })
-    return { video }
+
+    if (!video) {
+      reply.code(404).send()
+      return
+    }
+
+    const relatedVideos = await prisma.video.findMany({
+      where: {
+        category: video.category,
+        NOT: { videoId },
+      },
+      take: 4, // Pega apenas os 4 primeiros vídeos encontrados
+    })
+
+    return { video, relatedVideos }
   },
 )
 
